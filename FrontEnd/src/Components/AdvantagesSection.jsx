@@ -12,15 +12,12 @@ export default function AdvantagesSection() {
           You can rely on our experience and the quality of services we provide. Here are other reasons to book tours at Treat Holidays
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
           {advantages.map((adv) => (
-            <div key={adv.id} className="bg-white rounded-full w-24 h-24 mx-auto flex items-center justify-center">
-              <img src={adv.icon} alt={adv.title} className="w-12 h-12" />
-            </div>
-          ))}
-
-          {advantages.map((adv) => (
-            <div key={adv.id} className="text-center mt-4">
+            <div key={adv.id} className="flex flex-col items-center text-center">
+              <div className="bg-white rounded-full w-24 h-24 flex items-center justify-center mb-4">
+                <img src={adv.icon} alt={adv.title} className="w-12 h-12" />
+              </div>
               <h3 className="text-white font-semibold text-lg mb-2">{adv.title}</h3>
               <p className="text-white text-sm">{adv.description}</p>
             </div>
