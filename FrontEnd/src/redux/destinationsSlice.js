@@ -1,45 +1,43 @@
-import { createSlice } from '@reduxjs/toolkit';
+// redux/destinationsSlice.js
 
-const initialState = {
-  destinations: [
-    {
-      name: 'JAMMU & KASHMIR',
-      price: '₹4999/-',
-      image: '\J&K.jpg',
-    },
-    {
-      name: 'HIMACHAL PRADESH',
-      price: '₹4999/-',
-      image: '\Himachal.jpg',
-    },
-    {
-      name: 'GOA',
-      price: '₹4999/-',
-      image: '\Goa.jpg',
-    },
-    {
-      name: 'ASSAM',
-      price: '₹4999/-',
-      image: 'Assam.jpg',
-    },
-    {
-      name: 'MAHARASHTRA',
-      price: '₹4999/-',
-      image: '\Maharashtra.jpg',
-    },
-    {
-      name: 'KERELA',
-      price: '₹4999/-',
-      image: '\Kerela.jpg',
-    },
-  ],
-};
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
+
+export const fetchDestinations = createAsyncThunk(
+  'destinations/fetchDestinations',
+  async () => {
+    const res = await axios.get('/api/destinations');
+    return res.data;
+  }
+);
 
 const destinationsSlice = createSlice({
   name: 'destinations',
-  initialState,
+  initialState: {
+    data: [],
+    loading: false,
+    error: null,
+  },
   reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchDestinations.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchDestinations.fulfilled, (state, action) => {
+        state.loading = false;
+        state.data = action.payload;
+      })
+      .addCase(fetchDestinations.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      });
+  },
 });
 
-export const selectDestinations = (state) => state.destinations.destinations;
+// ✅ Safe selector to avoid .map crash
+export const selectDestinations = (state) =>
+  Array.isArray(state.destinations?.data) ? state.destinations.data : [];
+
 export default destinationsSlice.reducer;

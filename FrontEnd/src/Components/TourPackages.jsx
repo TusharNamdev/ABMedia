@@ -1,40 +1,54 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchTours, selectTours } from '../redux/tourSlice';
 
-export default function TourPackages() {
-  const tours = useSelector((state) => state.tours.list);
+const TourPackages = () => {
+  const dispatch = useDispatch();
+  const tours = useSelector(selectTours);
+  const loading = useSelector((state) => state.tours.loading);
+  const error = useSelector((state) => state.tours.error);
+
+  useEffect(() => {
+    dispatch(fetchTours());
+  }, [dispatch]);
+
+  console.log("✅ TOURS data in component:", tours); // Debug print
 
   return (
-    <div className="max-w-7xl mx-auto text-center mt-8">
-      <h2 className="text-2xl md:text-4xl font-bold text-teal-700 mb-2">
-        Top Selling Tour Packages of India
+    <section className="py-12 px-4 max-w-7xl mx-auto">
+      <h2 className="text-3xl sm:text-4xl font-bold text-center text-cyan-800">
+        Top Tour Packages
       </h2>
-      <p className="text-gray-600 mb-10">
-        Stay updated with our latest news and happenings through Informe.
+      <p className="text-center mt-2 text-gray-600 text-sm">
+        Explore our specially crafted tour experiences.
       </p>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {tours.map((tour) => (
+      {loading && <p className="text-center mt-6">Loading...</p>}
+      {error && <p className="text-center mt-6 text-red-600">{error}</p>}
+
+      <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 mt-10">
+        {(Array.isArray(tours) ? tours : []).map((tour, index) => (
           <div
-            key={tour.id}
-            className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 hover:shadow-xl transition duration-300"
+            key={index}
+            className="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition"
           >
             <img
-              src={tour.image}
-              alt={tour.title}
-              className="w-full h-52 object-cover rounded-t-xl"
+              src={tour?.image || '/fallback.jpg'}
+              alt={tour?.title || 'Tour'}
+              className="w-full h-44 object-cover"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = '/fallback.jpg';
+              }}
             />
             <div className="p-4">
-              <h3 className="text-md font-semibold text-teal-700 mb-3">
-                {tour.title}
-              </h3>
-              <button className="bg-teal-400 hover:bg-teal-500 text-white text-sm font-medium px-4 py-2 rounded-full">
-                VIEW DETAILS
-              </button>
+              <h3 className="text-sm font-bold text-cyan-700">{tour.title}</h3>
             </div>
           </div>
         ))}
       </div>
-    </div>
+    </section>
   );
-}
+};
+
+export default TourPackages;

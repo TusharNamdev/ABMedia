@@ -1,44 +1,40 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 
-const initialState = {
-  list: [
-    {
-      id: 1,
-      title: "GOLDEN TEMPLE TOUR",
-      image: "\Golden.jpg",
-    },
-    {
-      id: 2,
-      title: "AMAZING KERELA TOUR",
-      image: "\Kerela.jpg",
-    },
-    {
-      id: 3,
-      title: "KASHMIR HOLIDAY TOUR",
-      image: "\J&K.jpg",
-    },
-    {
-      id: 4,
-      title: "RAJASTHAN TOUR",
-      image: "\Rajasthan.jpg",
-    },
-    {
-      id: 5,
-      title: "TRIP TO GOA",
-      image: "\Goa.jpg",
-    },
-    {
-      id: 6,
-      title: "NAINITAL ESCAPE",
-      image: "\Nainital.webp",
-    },
-  ],
-};
+export const fetchTours = createAsyncThunk(
+  'tours/fetchTours',
+  async () => {
+    const res = await axios.get('/api/packages');
+    console.log("🔥 API Response:", res.data); // Add this
+    return res.data;
+  }
+);
+
 
 const tourSlice = createSlice({
   name: 'tours',
-  initialState,
+  initialState: {
+    data: [],
+    loading: false,
+    error: null,
+  },
   reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchTours.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchTours.fulfilled, (state, action) => {
+        state.loading = false;
+        state.data = action.payload;
+      })
+      .addCase(fetchTours.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      });
+  },
 });
 
+export const selectTours = (state) => state.tours?.data || [];
 export default tourSlice.reducer;
