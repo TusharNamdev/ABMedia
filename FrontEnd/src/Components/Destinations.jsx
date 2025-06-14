@@ -41,6 +41,9 @@ const Destinations = () => {
             />
             <div className="p-4">
               <h3 className="text-sm font-bold text-cyan-700">{dest.name}</h3>
+              <p className="text-sm text-gray-700">
+                Starting From <span className="font-semibold text-green-600">{dest.price}</span>
+              </p>
             </div>
           </div>
         ))}

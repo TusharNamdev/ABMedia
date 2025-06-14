@@ -7,7 +7,7 @@ const HeroSection = () => {
   return (
     <section
       className="relative h-[90vh] bg-cover bg-center flex items-start md:items-end"
-      style={{ backgroundImage: "url('./img.jpg')" }}
+      style={{ backgroundImage: "url('./Main.jpg')" }}
     >
       <div className="absolute inset-0 bg-black/50" />
 
@@ -29,7 +29,7 @@ const HeroSection = () => {
       </div>
 
       {/* Feature Bar (unchanged) */}
-      <div className="absolute bottom-0 w-full bg-black/60 text-white">
+      <div className="absolute bottom-0 w-[50%] bg-black/60 text-white ">
         <div className="max-w-6xl mx-auto grid grid-cols-3 divide-x divide-white/20 text-center text-sm sm:text-base font-medium">
           <p className="py-3">Easy Booking</p>
           <p className="py-3">Curated Destinations</p>

@@ -9,19 +9,19 @@ const packages = [
   },
   {
     title: "Kashmir Holiday Tour",
-    image: "/images/J&K.jpg",
+    image: "/images/kashmir.jpg",
   },
   {
-    title: "Anup Tour",
-    image: "/images/Rajasthan.jpg",
+    title: "Manali",
+    image: "/images/manali.jpg",
   },
   {
     title: "Trip to Goa",
-    image: "/images/Goa.jpg",
+    image: "/images/goa.jpg",
   },
   {
     title: "Nainital Escape",
-    image: "/images/Nainital.jpg",
+    image: "/images/nainital.jpg",
   },
 ];
 export default packages;

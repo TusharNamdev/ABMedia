@@ -42,7 +42,10 @@ const TourPackages = () => {
               }}
             />
             <div className="p-4">
-              <h3 className="text-sm font-bold text-cyan-700">{tour.title}</h3>
+              <h3 className="text-md font-bold text-center text-cyan-700 mb-3">{tour.title}</h3>
+              <button className="bg-teal-400  hover:bg-teal-500 text-white text-sm font-medium px-4 py-2 ml-16 md:ml-10 lg:ml-32  rounded-full">
+                VIEW DETAILS
+              </button>
             </div>
           </div>
         ))}
